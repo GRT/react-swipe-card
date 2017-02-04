@@ -1,5 +1,3 @@
-import Cards from './Cards'
-
-export Card from './CardSwitcher'
-
-export default Cards
+import CardDeck from './CardDeck';
+export Card from './CardSwitcher';
+export default CardDeck;
