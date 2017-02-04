@@ -13,7 +13,9 @@ class DraggableCard extends Component {
             initialPosition: {x: 0, y: 0},
             startPosition: {x: 0, y: 0},
             animation: null,
-            pristine: true
+            pristine: true,
+            onRightColor: this.props.onRightColor + ',0',
+            onLeftColor: this.props.onLeftColor + ',0'
         };
         this.resetPosition = this.resetPosition.bind(this);
         this.handlePan = this.handlePan.bind(this);
@@ -32,7 +34,9 @@ class DraggableCard extends Component {
             x: initialPosition.x,
             y: initialPosition.y,
             initialPosition: initialPosition,
-            startPosition: {x: 0, y: 0}
+            startPosition: {x: 0, y: 0},
+            onRightColor: this.props.onRightColor + ',0',
+            onLeftColor: this.props.onLeftColor + ',0'
         });
     }
 
@@ -68,6 +72,13 @@ class DraggableCard extends Component {
 
     panmove(ev) {
         this.setState(this.calculatePosition(ev.deltaX, ev.deltaY));
+
+        if (this.state.x >= -50) {
+            let colorPieces = (this.state.onRightColor).split(',');
+            colorPieces[3] = '1';
+            let newColor = colorPieces.join(',');
+            this.state.onRightColor = newColor;
+        }
     }
 
     pancancel(ev) {
@@ -116,7 +127,9 @@ class DraggableCard extends Component {
     render() {
         const {x, y, animation, pristine} = this.state;
         const style = translate3d(x, y);
-        return <SimpleCard {...this.props} style={style}
+        return <SimpleCard {...this.props}
+                           style={style}
+                           onRightColor={this.state.onRightColor}
                            className={animation ? 'animate' : pristine ? 'inactive' : '' }/>;
     }
 }

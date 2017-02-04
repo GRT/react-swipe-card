@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import {translate3d} from './utils';
 
-class Card extends Component {
+class SimpleCard extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -43,11 +43,11 @@ class Card extends Component {
                 <div style={{position: 'absolute', backgroundImage:
                     'url(' + this.props.imageUrl + ')', height: 250, width: 250}}></div>
                 <div style={{position: 'absolute'}}><h1>{this.props.title}</h1></div>
-                <div style={{backgroundColor: 'rgba(255,0,0,0.1)', height: '100%', width: '100%',
-                    position: 'absolute'}}></div>
+                <div style={{backgroundColor: 'rgba(' + this.props.onRightColor  + ')',
+                    height: '100%', width: '100%', position: 'absolute'}}></div>
             </div>
         )
     }
 }
 
-export default Card
+export default SimpleCard

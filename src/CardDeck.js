@@ -26,7 +26,9 @@ class CardDeck extends Component {
             }
         }, 300);
 
-        if (children.length === (this.state.index + 1) && this.props.onEnd) this.props.onEnd();
+        if (children.length === (this.state.index + 1) && this.props.onEnd) {
+            this.props.onEnd();
+        }
 
         this.setState({
             index: this.state.index + 1,
@@ -70,6 +72,8 @@ class CardDeck extends Component {
                 key: i,
                 containerSize,
                 index: children.length - index,
+                onRightColor: this.props.onRightColor ,
+                onLeftColor: this.props.onLeftColor,
                 onOutScreenLeft: () => this.removeCard('left'),
                 onOutScreenRight: () => this.removeCard('right'),
                 active: index === i

@@ -16,7 +16,9 @@ storiesOf('Tinder card', module).add('simple', () => (
     <div>
         <h1>react swipe card</h1>
         <CardDeck onEnd={action('end')}
-                  className='carddeck'>
+                  className='carddeck'
+                  onRightColor='0,255,0'
+                  onLeftColor='255,0,0'>
             {data.map(item =>
                 <Card title={item.title}
                       imageUrl={item.imageUrl}
@@ -32,7 +34,9 @@ storiesOf('Tinder card', module).add('simple', () => (
         <CardDeck alertRight={<CustomAlertRight />}
                   alertLeft={<CustomAlertLeft />}
                   onEnd={action('end')}
-                  className='carddeck'>
+                  className='carddeck'
+                  onRightColor='0,255,0'
+                  onLeftColor='255,0,0'>
             {data.map(item =>
                 <Card title={item.title}
                       imageUrl={item.imageUrl}></Card>
