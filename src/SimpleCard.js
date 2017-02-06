@@ -43,7 +43,7 @@ class SimpleCard extends Component {
                 <div style={{position: 'absolute', backgroundImage:
                     'url(' + this.props.imageUrl + ')', height: 250, width: 250}}></div>
                 <div style={{position: 'absolute'}}><h1>{this.props.title}</h1></div>
-                <div style={{backgroundColor: 'rgba(' + this.props.onRightColor  + ')',
+                <div style={{backgroundColor: 'rgba(' + this.props.moveColor  + ')',
                     height: '100%', width: '100%', position: 'absolute'}}></div>
             </div>
         )

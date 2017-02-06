@@ -72,7 +72,7 @@ class CardDeck extends Component {
                 key: i,
                 containerSize,
                 index: children.length - index,
-                onRightColor: this.props.onRightColor ,
+                onRightColor: this.props.onRightColor,
                 onLeftColor: this.props.onLeftColor,
                 onOutScreenLeft: () => this.removeCard('left'),
                 onOutScreenRight: () => this.removeCard('right'),

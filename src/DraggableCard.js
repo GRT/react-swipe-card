@@ -4,9 +4,18 @@ import ReactDOM from 'react-dom';
 import SimpleCard from './SimpleCard';
 import {translate3d} from './utils';
 
+let SIDE_THRESHOLD_PERCENT = 0.75;
+let TOP_THRESHOLD_PERCENT = 0.65;
+let MOVE_NONE = 'movenone';
+let MOVE_UP = 'moveup';
+let MOVE_LEFT = 'moveleft';
+let MOVE_RIGHT = 'moveright';
+
 class DraggableCard extends Component {
+
     constructor(props) {
         super(props);
+
         this.state = {
             x: 0,
             y: 0,
@@ -14,11 +23,43 @@ class DraggableCard extends Component {
             startPosition: {x: 0, y: 0},
             animation: null,
             pristine: true,
-            onRightColor: this.props.onRightColor + ',0',
-            onLeftColor: this.props.onLeftColor + ',0'
+            moveDirection: MOVE_NONE,
+            rightColor: this.initColorString(props.onRightColor),
+            leftColor: this.initColorString(props.onLeftColor),
+            moveColor: '0,0,0,0'
         };
         this.resetPosition = this.resetPosition.bind(this);
         this.handlePan = this.handlePan.bind(this);
+    }
+
+    initColorString(colorString) {
+
+        let resetColor = null;
+
+        if (colorString) {
+            // Remove extra spaces
+            resetColor = colorString.replace(' ');
+            resetColor = resetColor + ',0';
+        }
+
+        return resetColor;
+    }
+
+    updateOpacityValue(colorString, opacity) {
+        let newColor = null;
+
+        if (colorString) {
+            let colorPieces = (colorString).split(',');
+            colorPieces[3] = opacity;
+            newColor = colorPieces.join(',');
+        }
+
+        return newColor;
+    }
+
+    getMovePercentage(threshold, delta) {
+        // get percentage, rounded to 2 decimals and made positive value (abs)
+        return Math.round(Math.abs(delta/threshold) * 100) / 100;
     }
 
     resetPosition() {
@@ -30,13 +71,17 @@ class DraggableCard extends Component {
             y: Math.round((y - card.offsetHeight) / 2)
         };
 
+        let sideThresh = Math.round(card.clientWidth * SIDE_THRESHOLD_PERCENT);
+        let topThresh = Math.round(card.clientHeight * TOP_THRESHOLD_PERCENT);
+
         this.setState({
             x: initialPosition.x,
             y: initialPosition.y,
             initialPosition: initialPosition,
             startPosition: {x: 0, y: 0},
-            onRightColor: this.props.onRightColor + ',0',
-            onLeftColor: this.props.onLeftColor + ',0'
+            moveColor: '0,0,0,0',
+            sideExitThreshold: sideThresh,
+            topExitThreshold: topThresh
         });
     }
 
@@ -73,11 +118,13 @@ class DraggableCard extends Component {
     panmove(ev) {
         this.setState(this.calculatePosition(ev.deltaX, ev.deltaY));
 
-        if (this.state.x >= -50) {
-            let colorPieces = (this.state.onRightColor).split(',');
-            colorPieces[3] = '1';
-            let newColor = colorPieces.join(',');
-            this.state.onRightColor = newColor;
+        if (this.state.moveDirection === MOVE_RIGHT) {
+            let opacity = this.getMovePercentage(this.state.sideExitThreshold, ev.deltaX);
+            this.state.moveColor = this.updateOpacityValue(this.state.rightColor, opacity);
+
+        } else if (this.state.moveDirection === MOVE_LEFT) {
+            let opacity = this.getMovePercentage(this.state.sideExitThreshold, ev.deltaX);
+            this.state.moveColor = this.updateOpacityValue(this.state.leftColor, opacity);
         }
     }
 
@@ -96,6 +143,13 @@ class DraggableCard extends Component {
     }
 
     calculatePosition(deltaX, deltaY) {
+
+        if (deltaX < 0) {
+            this.state.moveDirection = MOVE_LEFT;
+        } else if (deltaX > 0) {
+            this.state.moveDirection = MOVE_RIGHT;
+        }
+
         const {initialPosition : {x, y}} = this.state;
         return {
             x: (x + deltaX),
@@ -129,7 +183,7 @@ class DraggableCard extends Component {
         const style = translate3d(x, y);
         return <SimpleCard {...this.props}
                            style={style}
-                           onRightColor={this.state.onRightColor}
+                           moveColor={this.state.moveColor}
                            className={animation ? 'animate' : pristine ? 'inactive' : '' }/>;
     }
 }
