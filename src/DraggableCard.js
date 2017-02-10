@@ -4,10 +4,11 @@ import ReactDOM from 'react-dom';
 import SimpleCard from './SimpleCard';
 import {translate3d} from './utils';
 
-let SIDE_THRESHOLD_PERCENT = 0.75;
-let TOP_THRESHOLD_PERCENT = 0.65;
+let HORIZONTAL_THRESHOLD_PERCENT = 0.75;
+let VERTICAL_THRESHOLD_PERCENT = 0.75;
 let MOVE_NONE = 'movenone';
 let MOVE_UP = 'moveup';
+let MOVE_DOWN = 'movedown';
 let MOVE_LEFT = 'moveleft';
 let MOVE_RIGHT = 'moveright';
 
@@ -24,8 +25,11 @@ class DraggableCard extends Component {
             animation: null,
             pristine: true,
             moveDirection: MOVE_NONE,
+            maxMoveOpacity: (props.maxOnMoveOpacity <= 1.0) ? props.maxOnMoveOpacity : 1.0,
             rightColor: this.initColorString(props.onRightColor),
             leftColor: this.initColorString(props.onLeftColor),
+            upColor: this.initColorString(props.onUpColor),
+            downColor: this.initColorString(props.onDownColor),
             moveColor: '0,0,0,0'
         };
         this.resetPosition = this.resetPosition.bind(this);
@@ -57,9 +61,13 @@ class DraggableCard extends Component {
         return newColor;
     }
 
-    getMovePercentage(threshold, delta) {
-        // get percentage, rounded to 2 decimals and made positive value (abs)
-        return Math.round(Math.abs(delta/threshold) * 100) / 100;
+    getMoveOpacity(threshold, delta) {
+        // get percentage made positive value (abs)
+        let percent = Math.abs(delta/threshold);
+        let opacity = (percent).toFixed(2);
+        opacity = (opacity > this.state.maxMoveOpacity) ? this.state.maxMoveOpacity : opacity;
+        // console.log('OPACITY: ' + opacity);
+        return opacity;
     }
 
     resetPosition() {
@@ -71,8 +79,8 @@ class DraggableCard extends Component {
             y: Math.round((y - card.offsetHeight) / 2)
         };
 
-        let sideThresh = Math.round(card.clientWidth * SIDE_THRESHOLD_PERCENT);
-        let topThresh = Math.round(card.clientHeight * TOP_THRESHOLD_PERCENT);
+        let horizThresh = Math.round(card.clientWidth * HORIZONTAL_THRESHOLD_PERCENT);
+        let vertThresh = Math.round(card.clientHeight * VERTICAL_THRESHOLD_PERCENT);
 
         this.setState({
             x: initialPosition.x,
@@ -80,8 +88,8 @@ class DraggableCard extends Component {
             initialPosition: initialPosition,
             startPosition: {x: 0, y: 0},
             moveColor: '0,0,0,0',
-            sideExitThreshold: sideThresh,
-            topExitThreshold: topThresh
+            horizontalExitThreshold: horizThresh,
+            verticalExitThreshold: vertThresh
         });
     }
 
@@ -97,17 +105,50 @@ class DraggableCard extends Component {
     panend(ev) {
         const screen = this.props.containerSize;
         const card = ReactDOM.findDOMNode(this);
-        if (this.state.x < -50) {
+        // if (this.state.x < -50) {
+        //     if (this.props.onSwipeLeft) {
+        //         this.props.onSwipeLeft();
+        //     }
+        //     this.props.onOutScreenLeft(this.props.index);
+        //
+        // } else if ((this.state.x + (card.offsetWidth - 50)) > screen.x) {
+        //     if (this.props.onSwipeRight) {
+        //         this.props.onSwipeRight();
+        //     }
+        //     this.props.onOutScreenRight(this.props.index);
+        //
+        // } else {
+        //     this.resetPosition();
+        //     this.setState({animation: true});
+        // }
+
+        if (this.state.moveDirection === MOVE_LEFT &&
+            Math.abs(this.state.x) > this.state.horizontalExitThreshold) {
             if (this.props.onSwipeLeft) {
                 this.props.onSwipeLeft();
             }
             this.props.onOutScreenLeft(this.props.index);
 
-        } else if ((this.state.x + (card.offsetWidth - 50)) > screen.x) {
+        } else if (this.state.moveDirection === MOVE_RIGHT &&
+            Math.abs(this.state.x) > this.state.horizontalExitThreshold) {
             if (this.props.onSwipeRight) {
                 this.props.onSwipeRight();
             }
             this.props.onOutScreenRight(this.props.index);
+
+        } else if (this.state.moveDirection === MOVE_UP &&
+            Math.abs(this.state.y) > this.state.verticalExitThreshold) {
+            if(this.props.onSwipeUp) {
+                this.props.onSwipeUp();
+            }
+            this.props.onOutScreenUp(this.props.index);
+
+        } else if (this.state.moveDirection === MOVE_DOWN &&
+            Math.abs(this.state.y) > this.state.verticalExitThreshold) {
+            if(this.props.onSwipeDown) {
+                this.props.onSwipeDown();
+            }
+            this.props.onOutScreenDown(this.props.index);
 
         } else {
             this.resetPosition();
@@ -119,12 +160,20 @@ class DraggableCard extends Component {
         this.setState(this.calculatePosition(ev.deltaX, ev.deltaY));
 
         if (this.state.moveDirection === MOVE_RIGHT) {
-            let opacity = this.getMovePercentage(this.state.sideExitThreshold, ev.deltaX);
+            let opacity = this.getMoveOpacity(this.state.horizontalExitThreshold, ev.deltaX);
             this.state.moveColor = this.updateOpacityValue(this.state.rightColor, opacity);
 
         } else if (this.state.moveDirection === MOVE_LEFT) {
-            let opacity = this.getMovePercentage(this.state.sideExitThreshold, ev.deltaX);
+            let opacity = this.getMoveOpacity(this.state.horizontalExitThreshold, ev.deltaX);
             this.state.moveColor = this.updateOpacityValue(this.state.leftColor, opacity);
+        
+        } else if (this.state.moveDirection === MOVE_UP) {
+            let opacity = this.getMoveOpacity(this.state.verticalExitThreshold, ev.deltaY);
+            this.state.moveColor = this.updateOpacityValue(this.state.upColor, opacity);
+
+        } else if (this.state.moveDirection === MOVE_DOWN) {
+            let opacity = this.getMoveOpacity(this.state.verticalExitThreshold, ev.deltaY);
+            this.state.moveColor = this.updateOpacityValue(this.state.downColor, opacity);
         }
     }
 
@@ -144,11 +193,24 @@ class DraggableCard extends Component {
 
     calculatePosition(deltaX, deltaY) {
 
-        if (deltaX < 0) {
-            this.state.moveDirection = MOVE_LEFT;
-        } else if (deltaX > 0) {
-            this.state.moveDirection = MOVE_RIGHT;
+        if (Math.abs(deltaX) > Math.abs(deltaY)) {
+            // We're moving more left or right than up or down
+            if (deltaX < 0) {
+                this.state.moveDirection = MOVE_LEFT;
+            } else if (deltaX > 0) {
+                this.state.moveDirection = MOVE_RIGHT;
+            }
+
+        } else {
+            // We're moving more up or down than left or right
+            if (deltaY < 0) {
+                this.state.moveDirection = MOVE_UP;
+            } else if (deltaY > 0) {
+                this.state.moveDirection = MOVE_DOWN;
+            }
         }
+
+        // console.log('MOVING: ' + this.state.moveDirection);
 
         const {initialPosition : {x, y}} = this.state;
         return {

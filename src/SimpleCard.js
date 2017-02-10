@@ -34,7 +34,7 @@ class SimpleCard extends Component {
         const {className = 'inactive'} = this.props;
         let style = {
             ...translate3d(x, y),
-            zIndex: this.props.index,
+            zIndex: this.props.zindex,
             ...this.props.style
         };
 
@@ -45,6 +45,7 @@ class SimpleCard extends Component {
                 <div style={{position: 'absolute'}}><h1>{this.props.title}</h1></div>
                 <div style={{backgroundColor: 'rgba(' + this.props.moveColor  + ')',
                     height: '100%', width: '100%', position: 'absolute'}}></div>
+                <div style={{}}>{this.props.text}</div>
             </div>
         )
     }

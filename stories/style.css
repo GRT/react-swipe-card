@@ -34,13 +34,14 @@ h1, h2 {
   width: 320px;
   overflow: hidden;
   border: 1px solid #e5e5e5;
+  text-align: center;
 }
 
 .card {
   background-color: white;
   background-size: cover;
   position: absolute;
-  background: #F8F3F3;
+  background: #FFFFFFF;
   height: 400px;
   width: 250px;
   margin: 0 auto;

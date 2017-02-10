@@ -33,7 +33,9 @@ class CardDeck extends Component {
         this.setState({
             index: this.state.index + 1,
             alertLeft: side === 'left',
-            alertRight: side === 'right'
+            alertRight: side === 'right',
+            alertUp: side === 'up',
+            alertDown: side === 'down'
         });
     }
 
@@ -71,11 +73,17 @@ class CardDeck extends Component {
             const props = {
                 key: i,
                 containerSize,
-                index: children.length - index,
+                zindex: children.length - index,
+                id: this.props.id,
+                maxOnMoveOpacity: this.props.maxOnMoveOpacity,
                 onRightColor: this.props.onRightColor,
                 onLeftColor: this.props.onLeftColor,
+                onUpColor: this.props.onUpColor,
+                onDownColor: this.props.onDownColor,
                 onOutScreenLeft: () => this.removeCard('left'),
                 onOutScreenRight: () => this.removeCard('right'),
+                onOutScreenUp: () => this.removeCard('up'),
+                onOutScreenDown: () => this.removeCard('down'),
                 active: index === i
             };
 
