@@ -1,3 +1,3 @@
 import CardDeck from './CardDeck';
-export Card from './CardSwitcher';
+export Card from './CardGenerator';
 export default CardDeck;

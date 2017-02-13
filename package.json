@@ -1,10 +1,10 @@
 {
   "name": "react-swipe-card",
-  "version": "0.0.7",
-  "description": "Tinder style swipe cards",
+  "version": "0.2.0",
+  "description": "Tinder style swipe cards, with additional functionality",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/alexandre-garrec/react-swipe-card.git"
+    "url": "git+https://github.com/GRT/react-swipe-card"
   },
   "main": "index.js",
   "scripts": {
@@ -34,8 +34,12 @@
     "babel-preset-stage-0": "^6.3.13",
     "conventional-changelog": "^1.1.0",
     "conventional-changelog-cli": "^1.2.0",
-    "superheroes": "^1.0.0",
-    "release-it": "^2.5.3"
+    "eslint": "^3.15.0",
+    "eslint-config-google": "^0.7.1",
+    "eslint-plugin-react": "^6.9.0",
+    "eslint-plugin-standard": "^2.0.1",
+    "release-it": "^2.5.3",
+    "superheroes": "^1.0.0"
   },
   "peerDependencies": {
     "react": "^15.4.2",

@@ -59,7 +59,8 @@ storiesOf('Tinder card', module).add('simple', () => (
                 <Card id={item.id}
                       title={item.title}
                       text={item.text}
-                      imageUrl={item.imageUrl}></Card>
+                      imageUrl={item.imageUrl}>
+                </Card>
             )}
         </CardDeck>
     </div>
