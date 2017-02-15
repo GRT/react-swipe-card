@@ -1,28 +1,46 @@
 import React, {Component, cloneElement} from 'react';
 import ReactDOM from 'react-dom';
 
+const UP = 'up';
+const RIGHT = 'right';
+const DOWN = 'down';
+const LEFT = 'left';
+
 class CardDeck extends Component {
 
   constructor(props) {
     super(props);
+
+    let directions = (props.enabledDirections.replace(' ')).split(',');
+
     this.state = {
       index: 0,
-      alertLeft: false,
-      alertRight: false,
-      containerSize: {x: 0, y: 0}
+      alertUpVisible: false,
+      alertRightVisible: false,
+      alertDownVisible: false,
+      alertLeftVisible: false,
+      containerSize: {x: 0, y: 0},
+      upEnabled: directions.includes(UP),
+      rightEnabled: directions.includes(RIGHT),
+      downEnabled: directions.includes(DOWN),
+      leftEnabled: directions.includes(LEFT),
     };
     this.removeCard = this.removeCard.bind(this);
     this.setSize = this.setSize.bind(this);
   }
 
-  removeCard(side) {
+  removeCard(side, cardIndex) {
     const {children} = this.props;
 
     setTimeout(() => {
-      if (side === 'left') {
-        this.setState({alertLeft: false});
-      } else if (side === 'right') {
-        this.setState({alertRight: false});
+      if (side === UP) {
+        this.setState({alertUpVisible: false});
+      } else if (side === RIGHT) {
+        this.setState({alertRightVisible: false});
+      } else if (side === DOWN) {
+        this.setState({alertDownVisible: false});
+      } else if (side === LEFT) {
+        this.setState({alertLeftVisible: false});
       }
     }, 300);
 
@@ -32,11 +50,13 @@ class CardDeck extends Component {
 
     this.setState({
       index: this.state.index + 1,
-      alertLeft: side === 'left',
-      alertRight: side === 'right',
-      alertUp: side === 'up',
-      alertDown: side === 'down'
+      alertUpVisible: side === UP,
+      alertRightVisible: side === RIGHT,
+      alertDownVisible: side === DOWN,
+      alertLeftVisible: side === LEFT
     });
+
+    this.props.onSwipe(side, cardIndex);
   }
 
   componentDidMount() {
@@ -60,7 +80,7 @@ class CardDeck extends Component {
   }
 
   render() {
-    const {alertLeft, alertRight, index, containerSize} = this.state;
+    const {alertLeftVisible, alertRightVisible, index, containerSize} = this.state;
     const {children, className} = this.props;
 
     if (!containerSize.x || !containerSize.y) {
@@ -75,16 +95,19 @@ class CardDeck extends Component {
       const props = {
         containerSize,
         zindex: children.length - index,
-        id: this.props.id,
         maxOnMoveOpacity: this.props.maxOnMoveOpacity,
-        onRightColor: this.props.onRightColor,
-        onLeftColor: this.props.onLeftColor,
         onUpColor: this.props.onUpColor,
+        onRightColor: this.props.onRightColor,
         onDownColor: this.props.onDownColor,
-        onOutScreenLeft: () => this.removeCard('left', i),
-        onOutScreenRight: () => this.removeCard('right', i),
-        onOutScreenUp: () => this.removeCard('up', i),
-        onOutScreenDown: () => this.removeCard('down', i),
+        onLeftColor: this.props.onLeftColor,
+        upEnabled: this.state.upEnabled,
+        rightEnabled: this.state.rightEnabled,
+        downEnabled: this.state.downEnabled,
+        leftEnabled: this.state.leftEnabled,
+        onOutScreenUp: (this.state.upEnabled) ? () => this.removeCard(UP, i) : null,
+        onOutScreenRight: (this.state.rightEnabled) ? () => this.removeCard(RIGHT, i) : null,
+        onOutScreenDown: (this.state.downEnabled) ? () => this.removeCard(DOWN, i) : null,
+        onOutScreenLeft: (this.state.leftEnabled) ? () => this.removeCard(LEFT, i): null,
         active: index === i
       };
 
@@ -93,10 +116,10 @@ class CardDeck extends Component {
 
     return (
       <div className={className}>
-        <div className={`${alertLeft ? 'alert-visible' : ''} alert-left alert`}>
+        <div className={`${alertLeftVisible ? 'alert-visible' : ''} alert-left alert`}>
           {this.props.alertLeft}
         </div>
-        <div className={`${alertRight ? 'alert-visible' : ''} alert-right alert`}>
+        <div className={`${alertRightVisible ? 'alert-visible' : ''} alert-right alert`}>
           {this.props.alertRight}
         </div>
         <div id='cards'>
@@ -108,20 +131,26 @@ class CardDeck extends Component {
 }
 
 CardDeck.propTypes = {
-  alertLeft: React.PropTypes.node,
+  alertUp: React.PropTypes.node,
   alertRight: React.PropTypes.node,
+  alertDown: React.PropTypes.node,
+  alertLeft: React.PropTypes.node,
+
   children: React.PropTypes.oneOfType([
     React.PropTypes.arrayOf(React.PropTypes.node),
     React.PropTypes.node
   ]).isRequired,
+
   className: React.PropTypes.string,
-  id: React.PropTypes.string,
+  enabledDirections: React.PropTypes.string,
   maxOnMoveOpacity: React.PropTypes.string,
   onDownColor: React.PropTypes.string,
-  onEnd: React.PropTypes.func,
   onLeftColor: React.PropTypes.string,
   onRightColor: React.PropTypes.string,
-  onUpColor: React.PropTypes.string
+  onUpColor: React.PropTypes.string,
+
+  onEnd: React.PropTypes.func,
+  onSwipe: React.PropTypes.func,
 };
 
 export default CardDeck;

@@ -4,13 +4,13 @@ import ReactDOM from 'react-dom';
 import SimpleCard from './SimpleCard';
 import {translate3d} from './utils';
 
-let HORIZONTAL_THRESHOLD_PERCENT = 0.75;
-let VERTICAL_THRESHOLD_PERCENT = 0.75;
-let MOVE_NONE = 'movenone';
-let MOVE_UP = 'moveup';
-let MOVE_DOWN = 'movedown';
-let MOVE_LEFT = 'moveleft';
-let MOVE_RIGHT = 'moveright';
+const HORIZONTAL_THRESHOLD_PERCENT = 0.55;
+const VERTICAL_THRESHOLD_PERCENT = 0.45;
+const MOVE_NONE = 'movenone';
+const MOVE_UP = 'moveup';
+const MOVE_DOWN = 'movedown';
+const MOVE_LEFT = 'moveleft';
+const MOVE_RIGHT = 'moveright';
 
 class DraggableCard extends Component {
 
@@ -26,10 +26,10 @@ class DraggableCard extends Component {
       pristine: true,
       moveDirection: MOVE_NONE,
       maxMoveOpacity: (props.maxOnMoveOpacity <= 1.0) ? props.maxOnMoveOpacity : 1.0,
-      rightColor: this.initColorString(props.onRightColor),
-      leftColor: this.initColorString(props.onLeftColor),
       upColor: this.initColorString(props.onUpColor),
+      rightColor: this.initColorString(props.onRightColor),
       downColor: this.initColorString(props.onDownColor),
+      leftColor: this.initColorString(props.onLeftColor),
       moveColor: '0,0,0,0'
     };
     this.resetPosition = this.resetPosition.bind(this);
@@ -106,33 +106,25 @@ class DraggableCard extends Component {
   }
 
   panend() {
-    if (this.state.moveDirection === MOVE_LEFT &&
-      Math.abs(this.state.x) > this.state.horizontalExitThreshold) {
-      if (this.props.onSwipeLeft) {
-        this.props.onSwipeLeft();
-      }
-      this.props.onOutScreenLeft();
-
-    } else if (this.state.moveDirection === MOVE_RIGHT &&
-      Math.abs(this.state.x) > this.state.horizontalExitThreshold) {
-      if (this.props.onSwipeRight) {
-        this.props.onSwipeRight();
-      }
-      this.props.onOutScreenRight();
-
-    } else if (this.state.moveDirection === MOVE_UP &&
+    if (this.state.moveDirection === MOVE_UP &&
+      this.props.upEnabled &&
       Math.abs(this.state.y) > this.state.verticalExitThreshold) {
-      if (this.props.onSwipeUp) {
-        this.props.onSwipeUp();
-      }
       this.props.onOutScreenUp();
 
+    } else if (this.state.moveDirection === MOVE_RIGHT &&
+      this.props.rightEnabled &&
+      Math.abs(this.state.x) > this.state.horizontalExitThreshold) {
+      this.props.onOutScreenRight();
+
     } else if (this.state.moveDirection === MOVE_DOWN &&
+      this.props.downEnabled &&
       Math.abs(this.state.y) > this.state.verticalExitThreshold) {
-      if (this.props.onSwipeDown) {
-        this.props.onSwipeDown();
-      }
       this.props.onOutScreenDown();
+
+    } else if (this.state.moveDirection === MOVE_LEFT &&
+      this.props.leftEnabled &&
+      Math.abs(this.state.x) > this.state.horizontalExitThreshold) {
+      this.props.onOutScreenLeft();
 
     } else {
       this.resetPosition();
@@ -242,15 +234,16 @@ class DraggableCard extends Component {
 DraggableCard.propTypes = {
   containerSize: React.PropTypes.object,
   maxOnMoveOpacity: React.PropTypes.string,
+
+  upEnabled: React.PropTypes.bool,
+  rightEnabled: React.PropTypes.bool,
+  downEnabled: React.PropTypes.bool,
+  leftEnabled: React.PropTypes.bool,
+
   onDownColor: React.PropTypes.string,
   onLeftColor: React.PropTypes.string,
   onRightColor: React.PropTypes.string,
   onUpColor: React.PropTypes.string,
-
-  onSwipeDown: React.PropTypes.func,
-  onSwipeLeft: React.PropTypes.func,
-  onSwipeRight: React.PropTypes.func,
-  onSwipeUp: React.PropTypes.func,
 
   onOutScreenDown: React.PropTypes.func,
   onOutScreenLeft: React.PropTypes.func,
