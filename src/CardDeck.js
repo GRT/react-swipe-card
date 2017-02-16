@@ -6,10 +6,14 @@ const RIGHT = 'right';
 const DOWN = 'down';
 const LEFT = 'left';
 
+const HORIZONTAL_THRESHOLD_PERCENT = 0.55;
+const VERTICAL_THRESHOLD_PERCENT = 0.45;
+
 class CardDeck extends Component {
 
   constructor(props) {
     super(props);
+
 
     let directions = (props.enabledDirections.replace(' ')).split(',');
 
@@ -80,7 +84,7 @@ class CardDeck extends Component {
   }
 
   render() {
-    const {alertLeftVisible, alertRightVisible, index, containerSize} = this.state;
+    const {alertUpVisible, alertRightVisible, alertDownVisible, alertLeftVisible, index, containerSize} = this.state;
     const {children, className} = this.props;
 
     if (!containerSize.x || !containerSize.y) {
@@ -96,6 +100,10 @@ class CardDeck extends Component {
         containerSize,
         zindex: children.length - index,
         maxOnMoveOpacity: this.props.maxOnMoveOpacity,
+        horizontalThreshold: (this.props.horizontalThreshold) ?
+          this.props.horizontalThreshold : HORIZONTAL_THRESHOLD_PERCENT,
+        verticalThreshold: (this.props.verticalThreshold) ?
+          this.props.verticalThreshold : VERTICAL_THRESHOLD_PERCENT,
         onUpColor: this.props.onUpColor,
         onRightColor: this.props.onRightColor,
         onDownColor: this.props.onDownColor,
@@ -116,11 +124,17 @@ class CardDeck extends Component {
 
     return (
       <div className={className}>
-        <div className={`${alertLeftVisible ? 'alert-visible' : ''} alert-left alert`}>
-          {this.props.alertLeft}
+        <div className={`${alertUpVisible ? 'alert-visible' : ''} alert-up alert`}>
+          {this.props.alertUp}
         </div>
         <div className={`${alertRightVisible ? 'alert-visible' : ''} alert-right alert`}>
           {this.props.alertRight}
+        </div>
+        <div className={`${alertDownVisible ? 'alert-visible' : ''} alert-down alert`}>
+          {this.props.alertDown}
+        </div>
+        <div className={`${alertLeftVisible ? 'alert-visible' : ''} alert-left alert`}>
+          {this.props.alertLeft}
         </div>
         <div id='cards'>
           {_cards}
@@ -148,6 +162,9 @@ CardDeck.propTypes = {
   onLeftColor: React.PropTypes.string,
   onRightColor: React.PropTypes.string,
   onUpColor: React.PropTypes.string,
+
+  horizontalThreshold: React.PropTypes.string,
+  verticalThreshold: React.PropTypes.string,
 
   onEnd: React.PropTypes.func,
   onSwipe: React.PropTypes.func,

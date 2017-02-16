@@ -87,8 +87,8 @@ h1, h2 {
 }
 
 .alert {
-    width: 45%;
-    min-height: 10%;
+    width: 30px;
+    height: 25px;
     position: absolute;
     top: 0;
     z-index: 9999;
@@ -103,16 +103,33 @@ h1, h2 {
     opacity: 1;
 }
 
+.alert-up {
+    width: 50px;
+    right: 40%;
+    top: 0;
+    background: gray;
+    border-radius: 25px;
+}
+
 .alert-right {
     right: 0;
     background: green;
-    border-top-left-radius: 50px;
-    border-bottom-left-radius: 50px;
+    border-top-left-radius: 25px;
+    border-bottom-left-radius: 25px;
+}
+
+.alert-down {
+    width: 50px;
+    right: 40%;
+    top: 90%;
+    background: blue;
+    border-radius: 25px;
 }
 
 .alert-left {
     left: 0;
     background: red;
-    border-top-right-radius: 50px;
-    border-bottom-right-radius: 50px;
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
 }
+

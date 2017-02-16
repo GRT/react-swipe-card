@@ -4,8 +4,6 @@ import ReactDOM from 'react-dom';
 import SimpleCard from './SimpleCard';
 import {translate3d} from './utils';
 
-const HORIZONTAL_THRESHOLD_PERCENT = 0.55;
-const VERTICAL_THRESHOLD_PERCENT = 0.45;
 const MOVE_NONE = 'movenone';
 const MOVE_UP = 'moveup';
 const MOVE_DOWN = 'movedown';
@@ -82,8 +80,8 @@ class DraggableCard extends Component {
       y: Math.round((y - card.offsetHeight) / 2)
     };
 
-    let horizThresh = Math.round(card.clientWidth * HORIZONTAL_THRESHOLD_PERCENT);
-    let vertThresh = Math.round(card.clientHeight * VERTICAL_THRESHOLD_PERCENT);
+    let horizThresh = Math.round(card.clientWidth * this.props.horizontalThreshold);
+    let vertThresh = Math.round(card.clientHeight * this.props.verticalThreshold);
 
     this.setState({
       x: initialPosition.x,
@@ -249,6 +247,9 @@ DraggableCard.propTypes = {
   onOutScreenLeft: React.PropTypes.func,
   onOutScreenRight: React.PropTypes.func,
   onOutScreenUp: React.PropTypes.func,
+
+  horizontalThreshold: React.PropTypes.string,
+  verticalThreshold: React.PropTypes.string
 };
 
 export default DraggableCard;
