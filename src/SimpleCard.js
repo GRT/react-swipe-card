@@ -46,6 +46,7 @@ class SimpleCard extends Component {
         <div className="cardtitle">{this.props.title}</div>
         <div className="cardmoveoverlay" style={{backgroundColor: 'rgba(' + this.props.moveColor + ')'}}></div>
         <div className="cardtext">{this.props.text}</div>
+        <div className="cardchildren">{this.props.children}</div>
       </div>
     );
   }
@@ -59,7 +60,8 @@ SimpleCard.propTypes = {
   style: React.PropTypes.object,
   text: React.PropTypes.string,
   title: React.PropTypes.string,
-  zindex: React.PropTypes.number
+  zindex: React.PropTypes.number,
+  children: React.PropTypes.array
 };
 
 export default SimpleCard;

@@ -33,6 +33,15 @@ class CardDeck extends Component {
     this.setSize = this.setSize.bind(this);
   }
 
+  undoRemoveCard() {
+    if(this.state.index > 0) {
+      this.setState({
+        index: this.state.index - 1
+      });
+      this.props.onUndo(true);
+    }
+  }
+
   removeCard(side, cardIndex) {
     const {children} = this.props;
 
@@ -46,7 +55,7 @@ class CardDeck extends Component {
       } else if (side === LEFT) {
         this.setState({alertLeftVisible: false});
       }
-    }, 300);
+    }, 750);
 
     if (children.length === (this.state.index + 1) && this.props.onEnd) {
       this.props.onEnd();
@@ -168,6 +177,7 @@ CardDeck.propTypes = {
 
   onEnd: React.PropTypes.func,
   onSwipe: React.PropTypes.func,
+  onUndo: React.PropTypes.func,
 };
 
 export default CardDeck;
