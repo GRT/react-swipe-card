@@ -59,14 +59,15 @@ class DraggableCard extends Component {
     return newColor;
   }
 
-  getMoveOpacity(threshold, delta) {
+  getMoveOpacity(threshold, delta, maxOpacity) {
     // get percentage made positive value (abs)
     let percent = Math.abs(delta / threshold);
     let opacity = (percent).toFixed(2);
-    opacity = (opacity > this.state.maxMoveOpacity) ? this.state.maxMoveOpacity : opacity;
+    opacity = (opacity > maxOpacity) ? maxOpacity : opacity;
     // console.log('OPACITY: ' + opacity);
     return opacity;
   }
+
 
   resetPosition() {
     const {x, y} = this.props.containerSize;
@@ -136,33 +137,37 @@ class DraggableCard extends Component {
     this.setState(this.calculatePosition(ev.deltaX, ev.deltaY));
 
     if (this.state.moveDirection === MOVE_RIGHT) {
-      let opacity = this.getMoveOpacity(this.state.horizontalExitThreshold, ev.deltaX);
+      let opacity = this.getMoveOpacity(this.state.horizontalExitThreshold, ev.deltaX, this.state.maxMoveOpacity);
+      let overlayOpacity = this.getMoveOpacity(this.state.horizontalExitThreshold, ev.deltaX, 1.0);
       this.setState({
         moveColor: this.updateOpacityValue(this.state.rightColor, opacity),
         overlayImageUrl: this.props.rightOverlayImage,
-        overlayImageOpacity: opacity
+        overlayImageOpacity: overlayOpacity
       });
 
     } else if (this.state.moveDirection === MOVE_LEFT) {
-      let opacity = this.getMoveOpacity(this.state.horizontalExitThreshold, ev.deltaX);
+      let opacity = this.getMoveOpacity(this.state.horizontalExitThreshold, ev.deltaX, this.state.maxMoveOpacity);
+      let overlayOpacity = this.getMoveOpacity(this.state.horizontalExitThreshold, ev.deltaX, 1.0);
       this.setState({
         moveColor: this.updateOpacityValue(this.state.leftColor, opacity),
         overlayImageUrl: this.props.leftOverlayImage,
-        overlayImageOpacity: opacity
+        overlayImageOpacity: overlayOpacity
       });
 
     } else if (this.state.moveDirection === MOVE_UP) {
-      let opacity = this.getMoveOpacity(this.state.verticalExitThreshold, ev.deltaY);
+      let opacity = this.getMoveOpacity(this.state.verticalExitThreshold, ev.deltaY, this.state.maxMoveOpacity);
+      let overlayOpacity = this.getMoveOpacity(this.state.verticalExitThreshold, ev.deltaY, 1.0);
       this.setState({moveColor: this.updateOpacityValue(this.state.upColor, opacity),
         overlayImageUrl: this.props.upOverlayImage,
-        overlayImageOpacity: opacity
+        overlayImageOpacity: overlayOpacity
       });
 
     } else if (this.state.moveDirection === MOVE_DOWN) {
-      let opacity = this.getMoveOpacity(this.state.verticalExitThreshold, ev.deltaY);
+      let opacity = this.getMoveOpacity(this.state.verticalExitThreshold, ev.deltaY, this.state.maxMoveOpacity);
+      let overlayOpacity = this.getMoveOpacity(this.state.verticalExitThreshold, ev.deltaY, 1.0);
       this.setState({moveColor: this.updateOpacityValue(this.state.downColor, opacity),
         overlayImageUrl: this.props.downOverlayImage,
-        overlayImageOpacity: opacity
+        overlayImageOpacity: overlayOpacity
       });
     }
   }
