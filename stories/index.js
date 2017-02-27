@@ -43,7 +43,7 @@ const CustomAlertRight = () => <span>Ok</span>;
 storiesOf('Tinder card', module).add('simple', () => (
   <div>
     <h1>react swipe card</h1>
-    <CardDeck className="carddeck"
+    <CardDeck className="card-deck"
               maxOnMoveOpacity="0.5"
               onRightColor="0,255,0"
               onLeftColor="255,0,0"
@@ -51,6 +51,9 @@ storiesOf('Tinder card', module).add('simple', () => (
               enabledDirections="up,right,down,left"
               horizontalThreshold="0.45"
               verticalThreshold="0.45"
+              upOverlayImage={require('../static/icon-circle-questionmark.png')}
+              rightOverlayImage={require('../static/icon-circle-checkmark.png')}
+              leftOverlayImage={require('../static/icon-circle-x.png')}
               onEnd={action('end')}
               onSwipe={(direction, cardIndex) => {
                 console.log('DIRECTION: ' + direction + ', CARD_INDEX: ' + cardIndex);
@@ -59,7 +62,7 @@ storiesOf('Tinder card', module).add('simple', () => (
         <Card key={index}
               title={item.title}
               text={item.text}
-              imageUrl={item.imageUrl}>
+              cardImageUrl={item.imageUrl}>
         </Card>
       )}
     </CardDeck>
@@ -69,7 +72,7 @@ storiesOf('Tinder card', module).add('simple', () => (
     <h1>react swipe card</h1>
     <CardDeck alertRight={<CustomAlertRight />}
               alertLeft={<CustomAlertLeft />}
-              className="carddeck"
+              className="card-deck"
               maxOnMoveOpacity="0.5"
               onRightColor="0,255,0"
               onLeftColor="255,0,0"
@@ -77,6 +80,8 @@ storiesOf('Tinder card', module).add('simple', () => (
               enabledDirections="up,right,down,left"
               horizontalThreshold="0.45"
               verticalThreshold="0.45"
+              rightOverlayImage={require('../static/icon-circle-checkmark.png')}
+              leftOverlayImage={require('../static/icon-circle-x.png')}
               onEnd={action('end')}
               onSwipe={(direction, cardIndex) => {
                 console.log('DIRECTION: ' + direction + ', CARD_INDEX: ' + cardIndex);
@@ -86,7 +91,7 @@ storiesOf('Tinder card', module).add('simple', () => (
               key={index}
               title={item.title}
               text={item.text}
-              imageUrl={item.imageUrl}>
+              cardImageUrl={item.imageUrl}>
         </Card>
       )}
     </CardDeck>

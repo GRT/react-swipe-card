@@ -26,7 +26,7 @@ h1, h2 {
     font-weight: 500;
 }
 
-.carddeck {
+.card-deck {
     margin: 20px auto;
     position: relative;
     min-height: 450px;
@@ -52,18 +52,18 @@ h1, h2 {
     cursor: pointer;
 }
 
-.cardtext {
+.card-text {
     margin-top: 275px;
     margin-left: 10px;
     margin-right: 10px;
 }
 
-.cardtitle {
+.card-title {
     position: absolute;
     margin-left: 20px;
 }
 
-.cardimage {
+.card-image {
     background-size: contain;
     position: absolute;
     margin: 10px;
@@ -71,10 +71,23 @@ h1, h2 {
     width: 230px;
 }
 
-.cardmoveoverlay {
+.card-move-color {
     position: absolute;
     height: 100%;
     width: 100%;
+}
+
+.card-overlay-image {
+    width: 64px;
+    height: 64px;
+    background-size: 64px 64px;
+    position: absolute;
+    top:0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    margin: auto;
 }
 
 .animate {

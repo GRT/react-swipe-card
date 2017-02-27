@@ -121,6 +121,10 @@ class CardDeck extends Component {
         rightEnabled: this.state.rightEnabled,
         downEnabled: this.state.downEnabled,
         leftEnabled: this.state.leftEnabled,
+        upOverlayImage: (this.props.upOverlayImage) ? this.props.upOverlayImage : null,
+        rightOverlayImage: (this.props.rightOverlayImage) ? this.props.rightOverlayImage : null,
+        downOverlayImage: (this.props.downOverlayImage) ? this.props.downOverlayImage : null,
+        leftOverlayImage: (this.props.leftOverlayImage) ? this.props.leftOverlayImage : null,
         onOutScreenUp: (this.state.upEnabled) ? () => this.removeCard(UP, i) : null,
         onOutScreenRight: (this.state.rightEnabled) ? () => this.removeCard(RIGHT, i) : null,
         onOutScreenDown: (this.state.downEnabled) ? () => this.removeCard(DOWN, i) : null,
@@ -174,6 +178,11 @@ CardDeck.propTypes = {
 
   horizontalThreshold: React.PropTypes.string,
   verticalThreshold: React.PropTypes.string,
+
+  upOverlayImage: React.PropTypes.string,
+  rightOverlayImage: React.PropTypes.string,
+  downOverlayImage: React.PropTypes.string,
+  leftOverlayImage: React.PropTypes.string,
 
   onEnd: React.PropTypes.func,
   onSwipe: React.PropTypes.func,

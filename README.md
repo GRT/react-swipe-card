@@ -63,6 +63,11 @@ Props:
  - onSwipeLeft: function
  - onSwipeRight: function
 
+
+## Artwork credits
+Checkmark, Plus and Questionmark icons by 
+Anton Saputro (http://www.antonps.com) from http://flaticon.com
+
 ## License
 
 [MIT License](https://opensource.org/licenses/MIT)

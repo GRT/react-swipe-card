@@ -90,7 +90,9 @@ class DraggableCard extends Component {
       startPosition: {x: 0, y: 0},
       moveColor: '0,0,0,0',
       horizontalExitThreshold: horizThresh,
-      verticalExitThreshold: vertThresh
+      verticalExitThreshold: vertThresh,
+      overlayImageUrl: null,
+      overlayImageOpacity: '0'
     });
   }
 
@@ -135,19 +137,33 @@ class DraggableCard extends Component {
 
     if (this.state.moveDirection === MOVE_RIGHT) {
       let opacity = this.getMoveOpacity(this.state.horizontalExitThreshold, ev.deltaX);
-      this.setState({moveColor: this.updateOpacityValue(this.state.rightColor, opacity)});
+      this.setState({
+        moveColor: this.updateOpacityValue(this.state.rightColor, opacity),
+        overlayImageUrl: this.props.rightOverlayImage,
+        overlayImageOpacity: opacity
+      });
 
     } else if (this.state.moveDirection === MOVE_LEFT) {
       let opacity = this.getMoveOpacity(this.state.horizontalExitThreshold, ev.deltaX);
-      this.setState({moveColor: this.updateOpacityValue(this.state.leftColor, opacity)});
+      this.setState({
+        moveColor: this.updateOpacityValue(this.state.leftColor, opacity),
+        overlayImageUrl: this.props.leftOverlayImage,
+        overlayImageOpacity: opacity
+      });
 
     } else if (this.state.moveDirection === MOVE_UP) {
       let opacity = this.getMoveOpacity(this.state.verticalExitThreshold, ev.deltaY);
-      this.setState({moveColor: this.updateOpacityValue(this.state.upColor, opacity)});
+      this.setState({moveColor: this.updateOpacityValue(this.state.upColor, opacity),
+        overlayImageUrl: this.props.upOverlayImage,
+        overlayImageOpacity: opacity
+      });
 
     } else if (this.state.moveDirection === MOVE_DOWN) {
       let opacity = this.getMoveOpacity(this.state.verticalExitThreshold, ev.deltaY);
-      this.setState({moveColor: this.updateOpacityValue(this.state.downColor, opacity)});
+      this.setState({moveColor: this.updateOpacityValue(this.state.downColor, opacity),
+        overlayImageUrl: this.props.downOverlayImage,
+        overlayImageOpacity: opacity
+      });
     }
   }
 
@@ -225,6 +241,8 @@ class DraggableCard extends Component {
     return <SimpleCard {...this.props}
                        style={style}
                        moveColor={this.state.moveColor}
+                       overlayImageUrl={this.state.overlayImageUrl}
+                       overlayImageOpacity={this.state.overlayImageOpacity}
                        className={animation ? 'animate' : pristine ? 'inactive' : '' }/>;
   }
 }
@@ -249,7 +267,12 @@ DraggableCard.propTypes = {
   onOutScreenUp: React.PropTypes.func,
 
   horizontalThreshold: React.PropTypes.string,
-  verticalThreshold: React.PropTypes.string
+  verticalThreshold: React.PropTypes.string,
+
+  upOverlayImage: React.PropTypes.string,
+  rightOverlayImage: React.PropTypes.string,
+  downOverlayImage: React.PropTypes.string,
+  leftOverlayImage: React.PropTypes.string
 };
 
 export default DraggableCard;
