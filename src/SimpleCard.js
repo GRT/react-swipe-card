@@ -46,20 +46,25 @@ class SimpleCard extends Component {
         <div className="card-title">{this.props.title}</div>
         <div className="card-move-color" style={{backgroundColor: 'rgba(' + this.props.moveColor + ')'}}></div>
         <div className="card-text">{this.props.text}</div>
-        <div className="card-overlay-image" style={{backgroundImage: 'url(' + this.props.overlayImageUrl + ')',
-          opacity: this.props.overlayImageOpacity}}></div>
+        <div className="card-overlay" style={{backgroundImage: 'url(' + this.props.overlayImageUrl + ')',
+          opacity: this.props.overlayOpacity}}><div className="card-overlay-text">{this.props.overlayText}</div></div>
         <div className="card-children">{this.props.children}</div>
       </div>
     );
   }
 }
 
+SimpleCard.defaultProps = {
+  overlayImageUrl: ''
+};
+
 SimpleCard.propTypes = {
   className: React.PropTypes.string,
   containerSize: React.PropTypes.object,
   cardImageUrl: React.PropTypes.string,
   overlayImageUrl: React.PropTypes.string,
-  overlayImageOpacity: React.PropTypes.string,
+  overlayText: React.PropTypes.string,
+  overlayOpacity: React.PropTypes.string,
   moveColor: React.PropTypes.string,
   style: React.PropTypes.object,
   text: React.PropTypes.string,

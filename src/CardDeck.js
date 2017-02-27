@@ -27,7 +27,7 @@ class CardDeck extends Component {
       upEnabled: directions.includes(UP),
       rightEnabled: directions.includes(RIGHT),
       downEnabled: directions.includes(DOWN),
-      leftEnabled: directions.includes(LEFT),
+      leftEnabled: directions.includes(LEFT)
     };
     this.removeCard = this.removeCard.bind(this);
     this.setSize = this.setSize.bind(this);
@@ -121,10 +121,14 @@ class CardDeck extends Component {
         rightEnabled: this.state.rightEnabled,
         downEnabled: this.state.downEnabled,
         leftEnabled: this.state.leftEnabled,
-        upOverlayImage: (this.props.upOverlayImage) ? this.props.upOverlayImage : null,
-        rightOverlayImage: (this.props.rightOverlayImage) ? this.props.rightOverlayImage : null,
-        downOverlayImage: (this.props.downOverlayImage) ? this.props.downOverlayImage : null,
-        leftOverlayImage: (this.props.leftOverlayImage) ? this.props.leftOverlayImage : null,
+        upOverlayImage: (this.props.upOverlayImage) ? this.props.upOverlayImage : '',
+        upOverlayText: (this.props.upOverlayText) ? this.props.upOverlayText : '',
+        rightOverlayImage: (this.props.rightOverlayImage) ? this.props.rightOverlayImage : '',
+        rightOverlayText: (this.props.rightOverlayText) ? this.props.rightOverlayText : '',
+        downOverlayImage: (this.props.downOverlayImage) ? this.props.downOverlayImage : '',
+        downOverlayText: (this.props.downOverlayText) ? this.props.downOverlayText : '',
+        leftOverlayImage: (this.props.leftOverlayImage) ? this.props.leftOverlayImage : '',
+        leftOverlayText: (this.props.leftOverlayText) ? this.props.leftOverlayText : '',
         onOutScreenUp: (this.state.upEnabled) ? () => this.removeCard(UP, i) : null,
         onOutScreenRight: (this.state.rightEnabled) ? () => this.removeCard(RIGHT, i) : null,
         onOutScreenDown: (this.state.downEnabled) ? () => this.removeCard(DOWN, i) : null,
@@ -183,6 +187,10 @@ CardDeck.propTypes = {
   rightOverlayImage: React.PropTypes.string,
   downOverlayImage: React.PropTypes.string,
   leftOverlayImage: React.PropTypes.string,
+  upOverlayText: React.PropTypes.string,
+  rightOverlayText: React.PropTypes.string,
+  downOverlayText: React.PropTypes.string,
+  leftOverlayText: React.PropTypes.string,
 
   onEnd: React.PropTypes.func,
   onSwipe: React.PropTypes.func,

@@ -52,8 +52,11 @@ storiesOf('Tinder card', module).add('simple', () => (
               horizontalThreshold="0.45"
               verticalThreshold="0.45"
               upOverlayImage={require('../static/icon-circle-questionmark.png')}
+              upOverlayText="Not sure"
               rightOverlayImage={require('../static/icon-circle-checkmark.png')}
+              rightOverlayText="Looks good"
               leftOverlayImage={require('../static/icon-circle-x.png')}
+              leftOverlayText="Not for me"
               onEnd={action('end')}
               onSwipe={(direction, cardIndex) => {
                 console.log('DIRECTION: ' + direction + ', CARD_INDEX: ' + cardIndex);
@@ -81,7 +84,9 @@ storiesOf('Tinder card', module).add('simple', () => (
               horizontalThreshold="0.45"
               verticalThreshold="0.45"
               rightOverlayImage={require('../static/icon-circle-checkmark.png')}
+              rightOverlayText="Looks good"
               leftOverlayImage={require('../static/icon-circle-x.png')}
+              leftOverlayText="Not for me"
               onEnd={action('end')}
               onSwipe={(direction, cardIndex) => {
                 console.log('DIRECTION: ' + direction + ', CARD_INDEX: ' + cardIndex);
