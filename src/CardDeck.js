@@ -93,7 +93,8 @@ class CardDeck extends Component {
   }
 
   render() {
-    const {alertUpVisible, alertRightVisible, alertDownVisible, alertLeftVisible, index, containerSize} = this.state;
+    const {alertUpVisible, alertRightVisible, alertDownVisible,
+      alertLeftVisible, index, containerSize} = this.state;
     const {children, className} = this.props;
 
     if (!containerSize.x || !containerSize.y) {

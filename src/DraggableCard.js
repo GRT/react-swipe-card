@@ -138,7 +138,8 @@ class DraggableCard extends Component {
     this.setState(this.calculatePosition(ev.deltaX, ev.deltaY));
 
     if (this.state.moveDirection === MOVE_RIGHT) {
-      let opacity = this.getMoveOpacity(this.state.horizontalExitThreshold, ev.deltaX, this.state.maxMoveOpacity);
+      let opacity = this.getMoveOpacity(this.state.horizontalExitThreshold, ev.deltaX,
+        this.state.maxMoveOpacity);
       let overlayOpacity = this.getMoveOpacity(this.state.horizontalExitThreshold, ev.deltaX, 1.0);
       this.setState({
         moveColor: this.updateOpacityValue(this.state.rightColor, opacity),
@@ -148,7 +149,8 @@ class DraggableCard extends Component {
       });
 
     } else if (this.state.moveDirection === MOVE_LEFT) {
-      let opacity = this.getMoveOpacity(this.state.horizontalExitThreshold, ev.deltaX, this.state.maxMoveOpacity);
+      let opacity = this.getMoveOpacity(this.state.horizontalExitThreshold, ev.deltaX,
+        this.state.maxMoveOpacity);
       let overlayOpacity = this.getMoveOpacity(this.state.horizontalExitThreshold, ev.deltaX, 1.0);
       this.setState({
         moveColor: this.updateOpacityValue(this.state.leftColor, opacity),
@@ -158,7 +160,8 @@ class DraggableCard extends Component {
       });
 
     } else if (this.state.moveDirection === MOVE_UP) {
-      let opacity = this.getMoveOpacity(this.state.verticalExitThreshold, ev.deltaY, this.state.maxMoveOpacity);
+      let opacity = this.getMoveOpacity(this.state.verticalExitThreshold, ev.deltaY,
+        this.state.maxMoveOpacity);
       let overlayOpacity = this.getMoveOpacity(this.state.verticalExitThreshold, ev.deltaY, 1.0);
       this.setState({moveColor: this.updateOpacityValue(this.state.upColor, opacity),
         overlayImageUrl: this.props.upOverlayImage,
@@ -168,7 +171,8 @@ class DraggableCard extends Component {
       });
 
     } else if (this.state.moveDirection === MOVE_DOWN) {
-      let opacity = this.getMoveOpacity(this.state.verticalExitThreshold, ev.deltaY, this.state.maxMoveOpacity);
+      let opacity = this.getMoveOpacity(this.state.verticalExitThreshold, ev.deltaY,
+        this.state.maxMoveOpacity);
       let overlayOpacity = this.getMoveOpacity(this.state.verticalExitThreshold, ev.deltaY, 1.0);
       this.setState({moveColor: this.updateOpacityValue(this.state.downColor, opacity),
         overlayImageUrl: this.props.downOverlayImage,
