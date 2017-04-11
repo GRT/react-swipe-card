@@ -99,9 +99,10 @@ h1, h2 {
     top: 75%;
 }
 
-.animate {
-    transition: transform .3s;
-    box-shadow: none;
+.card-children {
+  position: absolute;
+  width: 100%;
+  bottom: 0px;
 }
 
 .inactive {
@@ -119,6 +120,10 @@ h1, h2 {
     color: white;
     vertical-align: middle;
     line-height: 3rem;
+}
+
+.alert-text {
+  font-size: 14px;
 }
 
 .alert-visible {

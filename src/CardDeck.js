@@ -34,7 +34,7 @@ class CardDeck extends Component {
   }
 
   undoRemoveCard() {
-    if(this.state.index > 0) {
+    if (this.state.index > 0) {
       this.setState({
         index: this.state.index - 1
       });
@@ -46,14 +46,16 @@ class CardDeck extends Component {
     const {children} = this.props;
 
     setTimeout(() => {
-      if (side === UP) {
-        this.setState({alertUpVisible: false});
-      } else if (side === RIGHT) {
-        this.setState({alertRightVisible: false});
-      } else if (side === DOWN) {
-        this.setState({alertDownVisible: false});
-      } else if (side === LEFT) {
-        this.setState({alertLeftVisible: false});
+      if (this._isMounted){
+        if (side === UP) {
+          this.setState({alertUpVisible: false});
+        } else if (side === RIGHT) {
+          this.setState({alertRightVisible: false});
+        } else if (side === DOWN) {
+          this.setState({alertDownVisible: false});
+        } else if (side === LEFT) {
+          this.setState({alertLeftVisible: false});
+        }
       }
     }, 750);
 
@@ -73,11 +75,13 @@ class CardDeck extends Component {
   }
 
   componentDidMount() {
+    this._isMounted = true;
     this.setSize();
     window.addEventListener('resize', this.setSize);
   }
 
   componentWillUnmount() {
+    this._isMounted = false;
     window.removeEventListener('resize', this.setSize);
   }
 
